@@ -10,7 +10,7 @@ router.get('/signout', signout)
 
 router.get('/secret', requireSignin, (req, res) => {
     res.json({
-        message: 'secret page'
+        message: req.user
     })
 })
 

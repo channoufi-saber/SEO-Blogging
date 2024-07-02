@@ -8,6 +8,7 @@ require('dotenv').config()
 
 const blogRoutes = require('./routes/blog')
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 /* app */
 const app = express()
@@ -24,12 +25,13 @@ app.use(cors())
 
 /* cors 
 if (process.env.NODE_ENV == 'development') {
-	app.use(cors({ origin: `${process.env.CLIENT_URL}` }))
+    app.use(cors({ origin: `${process.env.CLIENT_URL}` }))
 }*/
 
 /* routes */
 app.use('/api', blogRoutes);
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 /* PORT */
 const port = process.env.PORT || 8000;

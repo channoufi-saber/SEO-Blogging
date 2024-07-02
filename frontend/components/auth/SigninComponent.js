@@ -1,6 +1,6 @@
 import Router from 'next/router';
-import { useState } from 'react';
-import { authenticate, signin } from '../../actions/auth';
+import { useEffect, useState } from 'react';
+import { authenticate, isAuth, signin } from '../../actions/auth';
 
 const SigninComponent = () => {
 	const [values, setValues] = useState({
@@ -14,6 +14,9 @@ const SigninComponent = () => {
 	});
 
 	const { email, password, error, loading, message, showForm } = values;
+	useEffect(() => {
+		isAuth() && Router.push(``);
+	}, []);
 	const handleSubmit = e => {
 		e.preventDefault();
 		setValues({ ...values, loading: true, error: false });
@@ -23,7 +26,11 @@ const SigninComponent = () => {
 				setValues({ ...values, error: data.error, loading: false });
 			} else {
 				authenticate(data, () => {
-					Router.push(`/`)
+					if (isAuth() && isAuth().role === 1) {
+						Router.push(`/admin`)
+					} else {
+						Router.push(`/user`)
+					}
 					
 				})
 			}
