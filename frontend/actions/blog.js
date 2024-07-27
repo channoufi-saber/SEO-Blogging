@@ -3,13 +3,13 @@ import { API } from '../config';
 
 export const createBlog = (blog, token) => {
     return fetch(`${API}/blog`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-            body: blog
-        })
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: blog
+    })
         .then(response => {
             return response.json();
         })
@@ -22,13 +22,13 @@ export const listBlogsWithCategoriesAndTags = (skip, limit) => {
         skip
     };
     return fetch(`${API}/blogs-categories-tags`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
         .then(response => {
             return response.json();
         })
@@ -37,10 +37,25 @@ export const listBlogsWithCategoriesAndTags = (skip, limit) => {
 
 export const singleBlog = slug => {
     return fetch(`${API}/blog/${slug}`, {
-            method: 'GET'
-        })
+        method: 'GET'
+    })
         .then(response => {
             return response.json();
         })
         .catch(err => console.log(err))
 }
+
+export const listRealated = blog => {
+    return fetch(`${API}/blogs/related`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(blog)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err))
+};

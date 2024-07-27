@@ -1,13 +1,29 @@
 import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import renderHTML from 'react-render-html';
-import { singleBlog } from '../../actions/blog';
+import { listRealated, singleBlog } from '../../actions/blog';
+import SmallCard from '../../components/blog/SmallCard';
 import Layout from '../../components/Layout';
 import { API, APP_NAME, DOMAIN } from '../../config';
 
 const SingleBlog = ({ blog, query }) => {
+	const [related, setRelated] = useState([]);
+	const loadRelated = () => {
+		listRealated({ blog }).then(data => {
+			if (data.error) {
+				console.log(data.error)
+			} else {
+				setRelated(data)
+			}
+		})
+	}
+
+	useEffect(() => {
+		loadRelated();
+	}, [])
+
 	const head = () => (
 		<Head>
 			<title>
@@ -40,6 +56,16 @@ const SingleBlog = ({ blog, query }) => {
 				<a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
 			</Link>
 		));
+
+	const showRelatedBlog = () => {
+		return related.map((blog, i) => (
+			<div className='col-md-4' key={i}>
+				<article>
+					<SmallCard blog={blog} />
+				</article>
+			</div>
+		))
+	}
 
 	return (
 		<React.Fragment>
@@ -84,7 +110,9 @@ const SingleBlog = ({ blog, query }) => {
 						<div className="container">
 							<h4 className="text-center pt-5 pb-5 h2">Related blogs</h4>
 							<hr />
-							<p>show related blogs</p>
+							<div className='row'>
+								{showRelatedBlog()}
+							</div>
 						</div>
 
 						<div className="container pb-5">
