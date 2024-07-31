@@ -161,13 +161,13 @@ exports.remove = (req, res) => {
         if (err) {
             return res.json({
                 error: errorHandler(err)
-            })
+            });
         }
         res.json({
             message: 'Blog deleted successfully'
-        })
-    })
-}
+        });
+    });
+};
 
 exports.update = (req, res) => {
     const slug = req.params.slug.toLowerCase();
