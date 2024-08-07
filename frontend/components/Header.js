@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import { isAuth, signout } from '../actions/auth';
 import { APP_NAME } from '../config';
+import Search from './blog/Search';
 
 
 Router.onRouteChangeStart = url => NProgress.start();
@@ -32,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <>
       <Navbar color="light" light expand="md">
         <Link href="/">
           <NavLink className="font-weight-bold">{APP_NAME}</NavLink>
@@ -89,7 +90,8 @@ const Header = () => {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+      <Search />
+    </>
   );
 };
 
