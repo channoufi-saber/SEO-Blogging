@@ -3,26 +3,28 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import renderHTML from 'react-render-html';
-import { listRealated, singleBlog } from '../../actions/blog';
+import { listRelated, singleBlog } from '../../actions/blog';
 import SmallCard from '../../components/blog/SmallCard';
+import DisqusThread from '../../components/DisqusThread';
 import Layout from '../../components/Layout';
 import { API, APP_NAME, DOMAIN } from '../../config';
 
 const SingleBlog = ({ blog, query }) => {
 	const [related, setRelated] = useState([]);
+
 	const loadRelated = () => {
-		listRealated({ blog }).then(data => {
+		listRelated({ blog }).then(data => {
 			if (data.error) {
-				console.log(data.error)
+				console.log(data.error);
 			} else {
-				setRelated(data)
+				setRelated(data);
 			}
-		})
-	}
+		});
+	};
 
 	useEffect(() => {
 		loadRelated();
-	}, [])
+	}, []);
 
 	const head = () => (
 		<Head>
@@ -59,13 +61,21 @@ const SingleBlog = ({ blog, query }) => {
 
 	const showRelatedBlog = () => {
 		return related.map((blog, i) => (
-			<div className='col-md-4' key={i}>
+			<div className="col-md-4" key={i}>
 				<article>
 					<SmallCard blog={blog} />
 				</article>
 			</div>
-		))
-	}
+		));
+	};
+
+	const showComments = () => {
+		return (
+			<div>
+				<DisqusThread id={blog.id} title={blog.title} path={`/blog/${blog.slug}`} />
+			</div>
+		);
+	};
 
 	return (
 		<React.Fragment>
@@ -91,7 +101,7 @@ const SingleBlog = ({ blog, query }) => {
 										Written by{' '}
 										<Link href={`/profile/${blog.postedBy.username}`}>
 											<a>{blog.postedBy.username}</a>
-										</Link>{' '} 
+										</Link>{' '}
 										| Published {moment(blog.updatedAt).fromNow()}
 									</p>
 
@@ -113,15 +123,10 @@ const SingleBlog = ({ blog, query }) => {
 
 						<div className="container">
 							<h4 className="text-center pt-5 pb-5 h2">Related blogs</h4>
-							<hr />
-							<div className='row'>
-								{showRelatedBlog()}
-							</div>
+							<div className="row">{showRelatedBlog()}</div>
 						</div>
 
-						<div className="container pb-5">
-							<p>show comments</p>
-						</div>
+						<div className="container pt-5 pb-5">{showComments()}</div>
 					</article>
 				</main>
 			</Layout>
@@ -134,6 +139,7 @@ SingleBlog.getInitialProps = ({ query }) => {
 		if (data.error) {
 			console.log(data.error);
 		} else {
+			// console.log('GET INITIAL PROPS IN SINGLE BLOG', data);
 			return { blog: data, query };
 		}
 	});
