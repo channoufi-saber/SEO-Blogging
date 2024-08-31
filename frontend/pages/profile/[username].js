@@ -2,6 +2,7 @@ import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
 import { userPublicProfile } from '../../actions/user';
+import ContactForm from '../../components/form/ContactForm';
 import Layout from '../../components/Layout';
 import { API, APP_NAME, DOMAIN } from '../../config';
 
@@ -84,7 +85,7 @@ const UserProfile = ({ user, blogs, query }) => {
 										Message {user.name}
 									</h5>
 									<br />
-									<p>contact form</p>
+									<ContactForm authorEmail={user.email} />
 								</div>
 							</div>
 						</div>
