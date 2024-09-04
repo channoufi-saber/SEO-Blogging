@@ -10,7 +10,7 @@ let mailTransporter = nodemailer.createTransport({
 	secure: true, // use TLS
 	auth: {
 		user: process.env.EMAIL_TO,
-		pass: "oyeh dqvr bdye caqk",
+		pass: "oyeh dqvr bdye cpqk",
 	},
 });
 

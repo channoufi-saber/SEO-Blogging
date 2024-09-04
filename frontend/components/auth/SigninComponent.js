@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { authenticate, isAuth, signin } from '../../actions/auth';
@@ -24,6 +25,7 @@ const SigninComponent = () => {
 		signin(user).then(data => {
 			if (data.error) {
 				setValues({ ...values, error: data.error, loading: false });
+				console.log(data.error)
 			} else {
 				authenticate(data, () => {
 					if (isAuth() && isAuth().role === 1) {
@@ -43,7 +45,7 @@ const SigninComponent = () => {
 		setValues({ ...values, error: false, [name]: e.target.value })
 	}
 	const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '')
-	const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '')
+	const showError = () => (error ? <div className="alert alert-danger">{typeof error === 'string' ? error : error[0].msg}</div> : '')
 	const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '')
 
 	const signinForm = () => {
@@ -82,6 +84,10 @@ const SigninComponent = () => {
 			{showLoading()}
 			{showMessage()}
 			{signinForm && signinForm()}
+			<br />
+			<Link href="/auth/password/forgot">
+				<a className='btn btn-outline-danger btn-sm'>Forgot password</a>
+			</Link>
 		</>
 	)
 }

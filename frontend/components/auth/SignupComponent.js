@@ -1,6 +1,7 @@
+import Link from "next/link";
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { isAuth, signup } from '../../actions/auth';
-import Router from 'next/router';
 
 const SignupComponent = () => {
     const [values, setValues] = useState({
@@ -48,7 +49,7 @@ const SignupComponent = () => {
     };
 
     const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '');
-    const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
+    const showError = () => (error ? <div className="alert alert-danger">{typeof error === 'string' ? error : error[0].msg}</div> : '');
     const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '');
 
     const signupForm = () => {
@@ -97,6 +98,10 @@ const SignupComponent = () => {
             {showLoading()}
             {showMessage()}
             {showForm && signupForm()}
+            <br />
+            <Link href="/auth/password/forgot">
+                <a className='btn btn-outline-danger btn-sm'>Forgot password</a>
+            </Link>
         </React.Fragment>
     );
 };
