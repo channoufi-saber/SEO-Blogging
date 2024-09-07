@@ -17,6 +17,12 @@ const formRoutes = require('./routes/form');
 /* app */
 const app = express()
 
+var corsOptions = {
+    origin: "http://localhost:3000"
+};
+
+app.use(cors(corsOptions));
+
 /* db */
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true })
     .then(() => console.log('DB connected'))
@@ -25,7 +31,6 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true })
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors())
 
 
 /* routes */

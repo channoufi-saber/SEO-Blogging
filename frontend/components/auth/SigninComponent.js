@@ -2,6 +2,7 @@ import Link from "next/link";
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { authenticate, isAuth, signin } from '../../actions/auth';
+import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {
 	const [values, setValues] = useState({
@@ -83,6 +84,7 @@ const SigninComponent = () => {
 			{showError()}
 			{showLoading()}
 			{showMessage()}
+			<LoginGoogle />
 			{signinForm && signinForm()}
 			<br />
 			<Link href="/auth/password/forgot">
