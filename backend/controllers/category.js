@@ -4,10 +4,10 @@ const Blog = require("../models/blog");
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.create = (req, res) => {
-    const { name } = req.body;
+    const { name,description } = req.body;
     let slug = slugify(name).toLowerCase();
 
-    let category = new Category({ name, slug });
+    let category = new Category({ name,description, slug });
 
     category.save((err, data) => {
         if (err) {

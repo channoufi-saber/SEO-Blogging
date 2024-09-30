@@ -108,7 +108,7 @@ const Tag = () => {
 			</div>
 			<div>
 				<button type="submit" className="btn btn-primary">
-					Create
+					Create Tag
 				</button>
 			</div>
 		</form>

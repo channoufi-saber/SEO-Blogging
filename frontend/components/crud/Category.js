@@ -7,6 +7,7 @@ import { create, getCategories, removeCategory } from '../../actions/category';
 const Category = () => {
 	const [values, setValues] = useState({
 		name: '',
+				description: '',
 		error: false,
 		success: false,
 		categories: [],
@@ -14,7 +15,7 @@ const Category = () => {
 		reload: false
 	});
 
-	const { name, error, success, categories, removed, reload } = values;
+	const { name,description, error, success, categories, removed, reload } = values;
 	const token = getCookie('token');
 
 	useEffect(() => {
@@ -58,24 +59,27 @@ const Category = () => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
-				setValues({ ...values, error: false, success: false, name: '', removed: !removed, reload: !reload });
+				setValues({ ...values, error: false, success: false, name: '',description:'', removed: !removed, reload: !reload });
 			}
 		});
 	};
 
 	const clickSubmit = e => {
 		e.preventDefault();
-		create({ name }, token).then(data => {
+		create({ name,description }, token).then(data => {
 			if (data.error) {
 				setValues({ ...values, error: data.error, success: false });
 			} else {
-				setValues({ ...values, error: false, success: true, name: '', removed: false, reload: !reload });
+				setValues({ ...values, error: false, success: true, name: '',description:'', removed: false, reload: !reload });
 			}
 		});
 	};
 
 	const handleChange = e => {
 		setValues({ ...values, name: e.target.value, error: false, success: false, removed: '' });
+	};
+	const handleChangee = e => {
+		setValues({ ...values,description: e.target.value, error: false, success: false, removed: '' });
 	};
 
 	const showSuccess = () => {
@@ -105,10 +109,12 @@ const Category = () => {
 			<div className="form-group">
 				<label className="text-muted">Name</label>
 				<input type="text" className="form-control" onChange={handleChange} value={name} required />
+				<label className="text-muted">Description</label>
+				<input type="text" className="form-control" onChange={handleChangee} value={description} required />
 			</div>
 			<div>
 				<button type="submit" className="btn btn-primary">
-					Create
+					Create Category
 				</button>
 			</div>
 		</form>
